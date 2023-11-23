@@ -3,11 +3,11 @@ import Product from "../models/Product";
 import ServiceResponse from "../models/ServiceResponse";
 
 interface ProductState {
-    item: Product;
+    item: ServiceResponse<Product>;
 }
 
 const initialState: ProductState = {
-    item: new Product(),
+    item: new ServiceResponse<Product>(),
 }
 
 const productSlice = createSlice({
@@ -20,7 +20,7 @@ const productSlice = createSlice({
         builder
         .addCase(getProductListByIdAsync.rejected, () => {
             console.log("error occured");})
-        .addCase(getProductListByIdAsync.fulfilled, (state, action: PayloadAction<Product>) => {
+            .addCase(getProductListByIdAsync.fulfilled, (state, action: PayloadAction<ServiceResponse<Product>>) => {
             state.item = action.payload;    
             })
     },
@@ -41,12 +41,19 @@ export const getProductListByIdAsync = createAsyncThunk(
             } else {
                 let result = new ServiceResponse<Product>();
                 result.data = null;
-                result.success = true;
-                result.message = "Operation completed successfully";
+                result.success = false;
+                result.message = "an error occur";
+                
+                return result;
             }
             
         } catch (error) {
-            throw error;
+            let result = new ServiceResponse<Product>();
+            result.data = null;
+            result.success = false;
+            result.message = "an error occur";
+
+            return result;
         }
     }
 );

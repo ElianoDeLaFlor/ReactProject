@@ -1,5 +1,5 @@
 class ServiceResponse<T> {
-    data?: T;
+    data?: T|null;
     message: string = "";
     success: boolean = false;
 }
