@@ -7,7 +7,7 @@ interface CardProps {
 function ProductCard(props: CardProps) {
   return (
     <>
-      <div className="card p-2 h-100">
+      <div className="card p-2 h-100 cardstyle">
         <img
           src={props.data.image}
           className="card-img-top productcard"
@@ -16,6 +16,7 @@ function ProductCard(props: CardProps) {
         <div className="card-body">
           <p className="card-text">{props.data.title}</p>
         </div>
+        <p className="card-text price">{`MUR ${props.data.price}`}</p>
       </div>
     </>
   );
