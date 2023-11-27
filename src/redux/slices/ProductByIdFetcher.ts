@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Product from "../models/Product";
-import ServiceResponse from "../models/ServiceResponse";
+import Product from "../../models/Product";
+import ServiceResponse from "../../models/ServiceResponse";
 
 interface ProductState {
     item: ServiceResponse<Product>;
@@ -18,10 +18,11 @@ const productSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-        .addCase(getProductListByIdAsync.rejected, () => {
-            console.log("error occured");})
+            .addCase(getProductListByIdAsync.rejected, () => {
+                console.log("error occured");
+            })
             .addCase(getProductListByIdAsync.fulfilled, (state, action: PayloadAction<ServiceResponse<Product>>) => {
-            state.item = action.payload;    
+                state.item = action.payload;
             })
     },
 });
@@ -43,15 +44,15 @@ export const getProductListByIdAsync = createAsyncThunk(
                 result.data = null;
                 result.success = false;
                 result.message = "an error occur";
-                
+
                 return result;
             }
-            
+
         } catch (error) {
             let result = new ServiceResponse<Product>();
             result.data = null;
             result.success = false;
-            result.message = "an error occur";
+            result.message = error as string;
 
             return result;
         }

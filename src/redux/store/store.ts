@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import productListReducer from '../slices/ProductFetcher';
+import productReducer from '../slices/ProductByIdFetcher';
 
 export const store = configureStore({
     reducer: {
-        productList: productListReducer
+        productList: productListReducer,
+        product: productReducer,
     },
 });
 
