@@ -47,6 +47,17 @@ function Header() {
                 </NavLink>
               </li>
             </ul>
+            <button
+              className="btn btn-success position-relative me-5"
+              type="button"
+            >
+              <i className="bi bi-bag-fill fs-5"></i>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                99+
+                <span className="visually-hidden">cart item</span>
+              </span>
+            </button>
+            
             <form className="d-flex" role="search">
               <input
                 className="form-control me-2"
