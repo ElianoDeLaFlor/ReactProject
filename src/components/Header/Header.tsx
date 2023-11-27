@@ -48,7 +48,7 @@ function Header() {
               </li>
             </ul>
             <button
-              className="btn btn-success position-relative me-5"
+              className="btn btn-success position-relative me-5 mt-1"
               type="button"
             >
               <i className="bi bi-bag-fill fs-5"></i>
