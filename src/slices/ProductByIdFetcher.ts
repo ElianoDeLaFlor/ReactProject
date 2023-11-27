@@ -51,7 +51,7 @@ export const getProductListByIdAsync = createAsyncThunk(
             let result = new ServiceResponse<Product>();
             result.data = null;
             result.success = false;
-            result.message = "an error occur";
+            result.message = error as string;
 
             return result;
         }

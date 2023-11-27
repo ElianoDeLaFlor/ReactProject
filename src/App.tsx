@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Products from "./pages/Products";
 import ErrorPage from "./pages/ErrorPage";
 import ProductComp from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<ProductComp />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
