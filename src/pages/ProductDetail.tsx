@@ -29,6 +29,7 @@ function ProductDetail() {
   //   }
   //   return list;
   // }
+  function addToCart() {}
 
   return (
     <>
