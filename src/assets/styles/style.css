@@ -1,0 +1,16 @@
+.productcard {
+    height: 300px;
+}
+
+.price {
+    font-weight: 800;
+    font-size: medium;
+}
+
+.cardstyle{
+    height: 100%;
+}
+
+.cardstyle:hover{
+    background-color: rgb(247, 247, 247);
+}
