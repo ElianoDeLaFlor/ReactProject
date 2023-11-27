@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
-import { AppDispatch, RootState } from "../store/store";
-import { getProductListByIdAsync } from "../slices/ProductByIdFetcher";
+import { useParams } from "react-router-dom";
+import { AppDispatch, RootState } from "../redux/store/store";
+import { getProductListByIdAsync } from "../redux/slices/ProductByIdFetcher";
 import { useEffect } from "react";
+import React, { useState } from "react";
+import { Rating } from "react-simple-star-rating";
 
 function ProductDetail() {
   const id = useParams();
@@ -10,10 +12,22 @@ function ProductDetail() {
   const item = useSelector((state: RootState) => state.product.item);
   const url = `https://fakestoreapi.com/products/${id.id}`;
   function productItem() {
-    //https://fakestoreapi.com/products/1
-
     dispatch(getProductListByIdAsync(url));
   }
+
+  const [rating, setRating] = useState(0);
+
+  // Catch Rating value
+  const handleRating = (rate: number) => {
+    setRating(rate);
+
+    // other logic
+  };
+  // Optinal callback functions
+  const onPointerEnter = () => {};
+  const onPointerLeave = () => {};
+  const onPointerMove = (value: number, index: number) =>
+    console.log(value, index);
 
   useEffect(() => {
     productItem();
@@ -55,6 +69,13 @@ function ProductDetail() {
                           <p className="card-text">{item.data?.description}</p>
                         </li>
 
+                        <li className="list-group-item fs-2">
+                          <span className="fs-5">Rating:</span>
+                          <Rating
+                            initialValue={item.data?.rating?.rate}
+                            /* Available Props */
+                          />
+                        </li>
                         <li className="list-group-item fs-2">
                           {`MUR ${item.data?.price}`}
                         </li>
