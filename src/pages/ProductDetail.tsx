@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../redux/store/store";
 import { getProductListByIdAsync } from "../redux/slices/ProductByIdFetcher";
 import { useEffect } from "react";
-import React, { useState } from "react";
 import { Rating } from "react-simple-star-rating";
 
 function ProductDetail() {
@@ -15,23 +14,21 @@ function ProductDetail() {
     dispatch(getProductListByIdAsync(url));
   }
 
-  const [rating, setRating] = useState(0);
-
-  // Catch Rating value
-  const handleRating = (rate: number) => {
-    setRating(rate);
-
-    // other logic
-  };
-  // Optinal callback functions
-  const onPointerEnter = () => {};
-  const onPointerLeave = () => {};
-  const onPointerMove = (value: number, index: number) =>
-    console.log(value, index);
-
   useEffect(() => {
     productItem();
   }, []);
+
+  // function generateSelectItem() {
+  //   let list: any[] = [];
+  //   for (let index = 1; index <= 100; index++) {
+  //     list.push(
+  //       <option title={index.toString()} key={index} value={index}>
+  //         {index}
+  //       </option>
+  //     );
+  //   }
+  //   return list;
+  // }
 
   return (
     <>
@@ -80,10 +77,27 @@ function ProductDetail() {
                           {`MUR ${item.data?.price}`}
                         </li>
                       </ul>
-                      <button title="add to cart" className="btn btn-success">
-                        <i className="bi bi-cart fs-3"></i>
-                        <span className="fs-3 ms-2">add to cart</span>
-                      </button>
+
+                      <div className="d-flex justify-content-between">
+                        <div>
+                          <button
+                            title="add to cart"
+                            className="btn btn-success"
+                          >
+                            <i className="bi bi-cart fs-4"></i>
+                            <span className="fs-3 ms-2">add to cart</span>
+                          </button>
+                        </div>
+                        <div>
+                          <select className="form-select my-3" aria-label="Default select example">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
