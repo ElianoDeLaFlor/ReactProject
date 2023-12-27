@@ -1,12 +1,11 @@
+
 import ICartItem from "../interfaces/ICartItem";
-import Product from "./Product";
+import CartItem from "./CartItem";
 
-class Cart  {
-    price: number=0;
-    itemCount: number=0;
-    products: ICartItem[] | undefined;
-    total: number = 0;
-
+class Cart {
+    itemCount: number = 0;
+    Items = new Array<ICartItem>();
+    price: number = 0;
 }
 
 export default Cart;

@@ -1,8 +1,14 @@
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { RootState } from "../../redux/store/store";
 
 function Header() {
+  const shoppingCart = useSelector(
+    (state: RootState) => state.shopItems.testItem
+  );
   return (
     <>
+      {}
       <nav className="navbar navbar-expand-lg bg-body-tertiary sticky">
         <div className="container-fluid">
           <NavLink to="/" className="navbar-brand">
@@ -47,17 +53,28 @@ function Header() {
                 </NavLink>
               </li>
             </ul>
-            <button
+            <NavLink
+              to="/cart"
+              className="btn btn-success position-relative me-5 mt-1"
+              aria-current="page"
+            >
+              <i className="bi bi-bag-fill fs-5"></i>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {shoppingCart.length}
+                <span className="visually-hidden">cart item</span>
+              </span>
+            </NavLink>
+            {/* <button
               className="btn btn-success position-relative me-5 mt-1"
               type="button"
             >
               <i className="bi bi-bag-fill fs-5"></i>
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                99+
+                {shoppingCart.length}
                 <span className="visually-hidden">cart item</span>
               </span>
-            </button>
-            
+            </button> */}
+
             <form className="d-flex" role="search">
               <input
                 className="form-control me-2"
