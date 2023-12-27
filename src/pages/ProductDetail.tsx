@@ -1,14 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../redux/store/store";
 import { getProductListByIdAsync } from "../redux/slices/ProductByIdFetcher";
+import { addItem, removeItem } from "../redux/slices/CartData";
+import { add_Item } from "../redux/slices/CartDatacopy";
 import { useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
+import Product from "../models/Product";
+import CartItem from "../models/CartItem";
 
 function ProductDetail() {
   const id = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const item = useSelector((state: RootState) => state.product.item);
+
   const url = `https://fakestoreapi.com/products/${id.id}`;
   function productItem() {
     dispatch(getProductListByIdAsync(url));
@@ -29,17 +34,46 @@ function ProductDetail() {
   //   }
   //   return list;
   // }
-  function addToCart() {}
+  function addToCart(product: Product | null | undefined) {
+    if (product) {
+      let item = new CartItem();
+      item.itemCount = 1;
+      item.product = product;
+      dispatch(addItem(item));
+    }
+  }
+
+  function add_ToCart(product: Product | null | undefined) {
+    if (product) {
+      dispatch(add_Item(product));
+    }
+  }
+
+  // function generateSelectItem() {
+  //   let list: any[] = [];
+  //   for (let index = 1; index <= 100; index++) {
+  //     list.push(
+  //       <option title={index.toString()} key={index} value={index}>
+  //         {index}
+  //       </option>
+  //     );
+  //   }
+  //   return list;
+  // }
 
   return (
     <>
-      {}
+      {console.log("cart")}
       <p className="fs-1 text-center">{item.data?.title}</p>
       <div className="container py-5">
-        <a className="btn btn-light ms-2 mb-2" href="/products">
+        <NavLink
+          to="/products"
+          className="btn btn-light ms-2 mb-2"
+          aria-current="page"
+        >
           <i className="bi bi-arrow-90deg-left"></i>
           <span className="fs-5 ms-2">Products</span>
-        </a>
+        </NavLink>
         <div className="container text-center">
           <div className="card">
             <div className="card-body">
@@ -78,27 +112,10 @@ function ProductDetail() {
                           {`MUR ${item.data?.price}`}
                         </li>
                       </ul>
-
-                      <div className="d-flex justify-content-between">
-                        <div>
-                          <button
-                            title="add to cart"
-                            className="btn btn-success"
-                          >
-                            <i className="bi bi-cart fs-4"></i>
-                            <span className="fs-3 ms-2">add to cart</span>
-                          </button>
-                        </div>
-                        <div>
-                          <select className="form-select my-3" aria-label="Default select example">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                          </select>
-                        </div>
-                      </div>
+                      <button title="add to cart" className="btn btn-success">
+                        <i className="bi bi-cart fs-3"></i>
+                        <span className="fs-3 ms-2">add to cart</span>
+                      </button>
                     </div>
                   </div>
                 </div>
