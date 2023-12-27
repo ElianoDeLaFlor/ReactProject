@@ -6,6 +6,8 @@ import { getProductListAsync } from "../redux/slices/ProductFetcher";
 import { AppDispatch, RootState } from "../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
 
+import LoadingSpin from "react-loading-spin";
+
 function Products() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useSelector((state: RootState) => state.productList.data.data);
@@ -19,6 +21,12 @@ function Products() {
   useEffect(() => {
     productList(url);
   }, []);
+
+  const ExampleOfUsingDefaultLoadingSpin = () => (
+    <div className={"ExampleOfUsage"}>
+      <LoadingSpin />
+    </div>
+  );
 
   function generateCard(productList: Product[] | null | undefined) {
     return productList?.map((p) => {

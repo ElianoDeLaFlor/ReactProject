@@ -8,12 +8,13 @@ import Header from "./components/Header/Header";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Products from "./pages/Products";
 import ErrorPage from "./pages/ErrorPage";
 import ProductComp from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
+import ShoppingItems from "./pages/ShoppingItems";
 
 function App() {
+  
   return (
     <>
       <Header />
@@ -23,6 +24,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<ProductComp />} />
         <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<ShoppingItems />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
