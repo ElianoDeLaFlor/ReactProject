@@ -3,15 +3,22 @@ import { AppDispatch, RootState } from "../redux/store/store";
 import Product from "../models/Product";
 import { NavLink } from "react-router-dom";
 import { remove_Item } from "../redux/slices/CartDatacopy";
+import { useState } from "react";
+import CheckoutModal from "./CheckoutModal";
+import ReactDOM from "react-dom";
 
 function ShoppingItems() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useSelector((state: RootState) => state.shopItems.testItem);
-
+  let [total, setatotal] = useState(0);
+  let totalprice = 0;
   function generateRows() {
     return list.map((data) => {
       let i = 0;
+      totalprice += data.price;
+      totalprice=Number.parseFloat(totalprice.toFixed(2));
       i++;
+
       return (
         <tr key={data.id}>
           <th scope="row">{i}</th>
@@ -42,15 +49,33 @@ function ShoppingItems() {
 
   return (
     <>
+      <CheckoutModal />
       <p className="fs-1 text-center">Shopping list</p>
-      <NavLink
-        to="/products"
-        className="btn btn-light ms-2 mb-2"
-        aria-current="page"
+
+      <div
+        className="btn-group"
+        role="group"
+        aria-label="Basic mixed styles example"
       >
-        <i className="bi bi-arrow-90deg-left"></i>
-        <span className="fs-5 ms-2">Products</span>
-      </NavLink>
+        <NavLink
+          to="/products"
+          className="btn btn-danger ms-2"
+          aria-current="page"
+        >
+          <i className="bi bi-arrow-90deg-left"></i>
+          <span className="fs-4 ms-2">Products</span>
+        </NavLink>
+
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={() => {
+          }}
+        >
+          <i className="bi bi-credit-card-fill"></i>
+          <span className="fs-4 ms-2">pay</span>
+        </button>
+      </div>
 
       <table className="table table-striped">
         <thead>
@@ -64,6 +89,14 @@ function ShoppingItems() {
         </thead>
 
         <tbody>{generateRows()}</tbody>
+        <tr>
+          <td
+            colSpan={5}
+            className="text-md-end pe-5 fs-2 fw-bold text-decoration-underline"
+          >
+            {totalprice}
+          </td>
+        </tr>
       </table>
     </>
   );

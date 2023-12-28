@@ -112,7 +112,13 @@ function ProductDetail() {
                           {`MUR ${item.data?.price}`}
                         </li>
                       </ul>
-                      <button title="add to cart" className="btn btn-success">
+                      <button
+                        title="add to cart"
+                        onClick={() => {
+                          add_ToCart(item.data);
+                        }}
+                        className="btn btn-success"
+                      >
                         <i className="bi bi-cart fs-3"></i>
                         <span className="fs-3 ms-2">add to cart</span>
                       </button>
