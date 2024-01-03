@@ -2,18 +2,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store/store";
 import Product from "../models/Product";
 import { NavLink } from "react-router-dom";
-import { remove_Item } from "../redux/slices/CartDatacopy";
+import { remove_Item, empty_Item } from "../redux/slices/CartDatacopy";
+import { useState } from "react";
+import CheckoutModal from "./CheckoutModal";
+import { showModal } from "./CheckoutModal";
 
 function ShoppingItems() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useSelector((state: RootState) => state.shopItems.testItem);
-
+  let totalprice = 0;
   function generateRows() {
+    let i = 0;
     return list.map((data) => {
-      let i = 0;
+      totalprice += data.price;
+      totalprice = Number.parseFloat(totalprice.toFixed(2));
       i++;
+
       return (
-        <tr key={data.id}>
+        <tr key={i}>
           <th scope="row">{i}</th>
           <td>
             <img width={90} height={90} src={data.image} alt="item" />
@@ -40,17 +46,49 @@ function ShoppingItems() {
     dispatch(remove_Item(item));
   }
 
+  function emptyCart() {
+    dispatch(empty_Item());
+  }
+
   return (
     <>
       <p className="fs-1 text-center">Shopping list</p>
-      <NavLink
-        to="/products"
-        className="btn btn-light ms-2 mb-2"
-        aria-current="page"
+
+      <div
+        className="btn-group"
+        role="group"
+        aria-label="Basic mixed styles example"
       >
-        <i className="bi bi-arrow-90deg-left"></i>
-        <span className="fs-5 ms-2">Products</span>
-      </NavLink>
+        <NavLink
+          to="/products"
+          className="btn btn-danger ms-2"
+          aria-current="page"
+        >
+          <i className="bi bi-arrow-90deg-left"></i>
+          <span className="fs-4 ms-2">Products</span>
+        </NavLink>
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={() => {
+            emptyCart();
+          }}
+        >
+          <i className="bi bi-cart-x"></i>
+          <span className="fs-4 ms-2">Empty</span>
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={() => {
+            showModal();
+          }}
+        >
+          <i className="bi bi-credit-card-fill"></i>
+          <span className="fs-4 ms-2">pay</span>
+        </button>
+      </div>
 
       <table className="table table-striped">
         <thead>
@@ -64,7 +102,17 @@ function ShoppingItems() {
         </thead>
 
         <tbody>{generateRows()}</tbody>
+        <tr>
+          <td
+            colSpan={5}
+            className="text-md-end pe-5 fs-2 fw-bold text-decoration-underline"
+          >
+            {totalprice}
+          </td>
+        </tr>
       </table>
+      <div>{/* <Loading /> */}</div>
+      <CheckoutModal total={totalprice} />
     </>
   );
 }

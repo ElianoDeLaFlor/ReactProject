@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
 
 import LoadingSpin from "react-loading-spin";
+import Loading from "../components/Loading";
 
 function Products() {
   const dispatch = useDispatch<AppDispatch>();
@@ -38,6 +39,14 @@ function Products() {
     });
   }
 
+  function showSpin() {
+    if (!list) {
+      return <Loading />;
+    } else {
+      return "";
+    }
+  }
+
   return (
     <>
       <p className="fs-1 text-center">Product list</p>
@@ -46,6 +55,7 @@ function Products() {
           <div className="row row-cols-4">{generateCard(list)}</div>
         </div>
       </div>
+      <div>{showSpin()}</div>
     </>
   );
 }
