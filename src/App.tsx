@@ -12,9 +12,10 @@ import ErrorPage from "./pages/ErrorPage";
 import ProductComp from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import ShoppingItems from "./pages/ShoppingItems";
+import { useState } from "react";
 
 function App() {
-  
+
   return (
     <>
       <Header />
@@ -23,6 +24,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<ProductComp />} />
+        <Route path="/products/search/:search" element={<ProductComp />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<ShoppingItems />} />
 

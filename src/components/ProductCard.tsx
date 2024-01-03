@@ -7,10 +7,9 @@ interface CardProps {
 }
 
 function ProductCard(props: CardProps) {
-
   const navigate = useNavigate();
 
-  function navigateToDetails(id:string) {
+  function navigateToDetails(id: string) {
     navigate(id);
   }
 
@@ -29,7 +28,7 @@ function ProductCard(props: CardProps) {
         <button
           className="btn btn-primary"
           onClick={() => {
-            navigateToDetails(`${props.data.id}`);
+            navigateToDetails(`/products/${props.data.id}`);
           }}
         >
           More details ...

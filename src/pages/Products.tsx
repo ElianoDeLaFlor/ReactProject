@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Product from "../models/Product";
 
@@ -8,10 +8,34 @@ import { useDispatch, useSelector } from "react-redux";
 
 import LoadingSpin from "react-loading-spin";
 import Loading from "../components/Loading";
+import { useParams } from "react-router";
+
+interface ProductProps {
+  search: string;
+}
 
 function Products() {
+  const serachData = useParams();
   const dispatch = useDispatch<AppDispatch>();
-  const list = useSelector((state: RootState) => state.productList.data.data);
+  const list = useSelector(
+    (state: RootState) => state.productList.data.data
+  ) as Product[];
+  let listData = new Array<Product>();
+  let style: string = "";
+  function search() {
+    if (serachData.search) {
+      const data = serachData.search as string;
+      if (data.length > 0) {
+        listData = list.filter((i) =>
+          i.title.toLowerCase().includes(data.toLowerCase())
+        );
+      } else {
+        listData = list;
+      }
+    } else {
+      listData = list;
+    }
+  }
 
   const url = "https://fakestoreapi.com/products";
 
@@ -30,13 +54,24 @@ function Products() {
   );
 
   function generateCard(productList: Product[] | null | undefined) {
-    return productList?.map((p) => {
+    if (productList?.length === 0) {
       return (
-        <div key={p.id} className="col mb-3">
-          <ProductCard data={p} />
-        </div>
+        <>
+          <p className="fs-3 text-center">
+            No result found for the search criteria
+          </p>
+        </>
       );
-    });
+    } else {
+      console.log("style", style);
+      return productList?.map((p) => {
+        return (
+          <div key={p.id} className="col mb-3">
+            <ProductCard data={p} />
+          </div>
+        );
+      });
+    }
   }
 
   function showSpin() {
@@ -49,10 +84,11 @@ function Products() {
 
   return (
     <>
+      {search()}
       <p className="fs-1 text-center">Product list</p>
       <div className="container py-5">
         <div className="container text-center">
-          <div className="row row-cols-4">{generateCard(list)}</div>
+          <div className="row row-cols-4">{generateCard(listData)}</div>
         </div>
       </div>
       <div>{showSpin()}</div>

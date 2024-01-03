@@ -1,15 +1,44 @@
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
+import { ChangeEvent, FormEvent, useState } from "react";
+
+interface HeaderPropos {
+  sendSearchData: (data: string) => void;
+}
 
 function Header() {
   const shoppingCart = useSelector(
     (state: RootState) => state.shopItems.testItem
   );
+
+  let [data, setData] = useState<string>("");
+  const navigate = useNavigate();
+
+  function userSearchInput(e: ChangeEvent<HTMLInputElement>) {
+    setData(e.target.value);
+  }
+
+  function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    //filter the product list if the serch criteria is greter than 3
+    if (data.length > 3) {
+      const url = `/products/search/${data}`;
+      return navigate(url);
+    } else {
+      //other wise retur the list
+      return navigate("/products");
+    }
+  }
+
   return (
     <>
       {}
-      <nav className="navbar navbar-expand-lg bg-body-tertiary sticky">
+      <nav
+        className="navbar mb-5 navbar-expand-lg sticky-top shadow headerbackground fs-4"
+        
+      >
         <div className="container-fluid">
           <NavLink to="/" className="navbar-brand">
             Navbar
@@ -75,12 +104,13 @@ function Header() {
               </span>
             </button> */}
 
-            <form className="d-flex" role="search">
+            <form className="d-flex" role="search" onSubmit={submit}>
               <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                onChange={userSearchInput}
               />
               <button className="btn btn-outline-success" type="submit">
                 Search
