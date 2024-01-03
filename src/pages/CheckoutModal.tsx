@@ -9,7 +9,7 @@ export function showModal() {
   btn.click();
 }
 
-function showMessage(price: number) {
+function ShowMessage({price}: {price:number}) {
   if (price > 0) {
     return (
       <>
@@ -19,7 +19,7 @@ function showMessage(price: number) {
       </>
     );
   } else {
-    return "The cart is empty";
+    return <>"The cart is empty"</>;
   }
 }
 
@@ -57,7 +57,9 @@ function CheckoutModal(props: CheckoutModalProps) {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">{showMessage(props.total)}</div>
+            <div className="modal-body">
+              <ShowMessage price={props.total}/>
+            </div>
             <div className="modal-footer">
               <button
                 type="button"

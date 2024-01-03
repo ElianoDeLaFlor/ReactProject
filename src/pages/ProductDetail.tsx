@@ -67,17 +67,15 @@ function ProductDetail() {
   //   return list;
   // }
 
-  function LoadingSpin(data: string | undefined) {
-    if (!data) {
+  function LoadingSpin({data}:{data: string | undefined}) {
+    if (!data) 
       return <Loading />;
-    } else {
-      return "";
-    }
+    return <></>;
   }
 
   return (
     <>
-      <ToastContainer/>
+      <ToastContainer />
       <p className="fs-1 text-center">{item.data?.title}</p>
       <div className="container py-5">
         <NavLink
@@ -94,7 +92,7 @@ function ProductDetail() {
               <div className="card mb-3">
                 <div className="row g-0">
                   <div className="col-md-4 border-end">
-                    {LoadingSpin(item.data?.image)}
+                    <LoadingSpin data={item.data?.image} />
                     <img
                       src={item.data?.image}
                       className="img-fluid rounded-start"

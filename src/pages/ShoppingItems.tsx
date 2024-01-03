@@ -11,7 +11,8 @@ function ShoppingItems() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useSelector((state: RootState) => state.shopItems.testItem);
   let totalprice = 0;
-  function generateRows() {
+  
+  function GenerateRows() {
     let i = 0;
     return list.map((data) => {
       totalprice += data.price;
@@ -19,25 +20,27 @@ function ShoppingItems() {
       i++;
 
       return (
-        <tr key={i}>
-          <th scope="row">{i}</th>
-          <td>
-            <img width={90} height={90} src={data.image} alt="item" />
-          </td>
-          <th scope="row">{data.title}</th>
-          <td>{1}</td>
-          <td>{data.price}</td>
-          <td>
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                deleteData(data);
-              }}
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
+        <>
+          <tr key={i}>
+            <th scope="row">{i}</th>
+            <td>
+              <img width={90} height={90} src={data.image} alt="item" />
+            </td>
+            <th scope="row">{data.title}</th>
+            <td>{1}</td>
+            <td>{data.price}</td>
+            <td>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  deleteData(data);
+                }}
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </>
       );
     });
   }
@@ -101,7 +104,9 @@ function ShoppingItems() {
           </tr>
         </thead>
 
-        <tbody>{generateRows()}</tbody>
+        <tbody>
+          <GenerateRows/>
+        </tbody>
         <tr>
           <td
             colSpan={5}

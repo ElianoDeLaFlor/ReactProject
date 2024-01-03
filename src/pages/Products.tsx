@@ -21,7 +21,6 @@ function Products() {
     (state: RootState) => state.productList.data.data
   ) as Product[];
   let listData = new Array<Product>();
-  let style: string = "";
   function search() {
     if (serachData.search) {
       const data = serachData.search as string;
@@ -47,13 +46,7 @@ function Products() {
     productList(url);
   }, []);
 
-  const ExampleOfUsingDefaultLoadingSpin = () => (
-    <div className={"ExampleOfUsage"}>
-      <LoadingSpin />
-    </div>
-  );
-
-  function generateCard(productList: Product[] | null | undefined) {
+  function GenerateCard({productList }:{productList: Product[] | null | undefined}) {
     if (productList?.length === 0) {
       return (
         <>
@@ -63,23 +56,24 @@ function Products() {
         </>
       );
     } else {
-      console.log("style", style);
-      return productList?.map((p) => {
-        return (
-          <div key={p.id} className="col mb-3">
-            <ProductCard data={p} />
-          </div>
-        );
-      });
+      return (
+        <>
+          {productList?.map((p) => {
+            return (
+              <div key={p.id} className="col mb-3">
+                <ProductCard data={p} />
+              </div>
+            );
+          })}
+        </>
+      );
     }
   }
 
-  function showSpin() {
-    if (!list) {
+  function ShowSpin() {
+    if (!list) 
       return <Loading />;
-    } else {
-      return "";
-    }
+    return <></>;
   }
 
   return (
@@ -88,10 +82,14 @@ function Products() {
       <p className="fs-1 text-center">Product list</p>
       <div className="container py-5">
         <div className="container text-center">
-          <div className="row row-cols-4">{generateCard(listData)}</div>
+          <div className="row row-cols-4">
+            <GenerateCard productList={listData}/>
+          </div>
         </div>
       </div>
-      <div>{showSpin()}</div>
+      <div>
+        <ShowSpin/>
+      </div>
     </>
   );
 }
