@@ -9,11 +9,14 @@ import { Rating } from "react-simple-star-rating";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
 import Loading from "../components/Loading";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductDetail() {
   const id = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const item = useSelector((state: RootState) => state.product.item);
+  const notify = () => toast("Item added to the cart");
 
   const url = `https://fakestoreapi.com/products/${id.id}`;
   function productItem() {
@@ -41,12 +44,14 @@ function ProductDetail() {
       item.itemCount = 1;
       item.product = product;
       dispatch(addItem(item));
+      notify();
     }
   }
 
   function add_ToCart(product: Product | null | undefined) {
     if (product) {
       dispatch(add_Item(product));
+      notify();
     }
   }
 
@@ -62,19 +67,17 @@ function ProductDetail() {
   //   return list;
   // }
 
-  function LoadingSpin(data:string|undefined) {
+  function LoadingSpin(data: string | undefined) {
     if (!data) {
       return <Loading />;
-    }
-    else {
+    } else {
       return "";
     }
-    
   }
 
   return (
     <>
-      {console.log("cart")}
+      <ToastContainer/>
       <p className="fs-1 text-center">{item.data?.title}</p>
       <div className="container py-5">
         <NavLink
