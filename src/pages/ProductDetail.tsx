@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
+import Loading from "../components/Loading";
 
 function ProductDetail() {
   const id = useParams();
@@ -61,6 +62,16 @@ function ProductDetail() {
   //   return list;
   // }
 
+  function LoadingSpin(data:string|undefined) {
+    if (!data) {
+      return <Loading />;
+    }
+    else {
+      return "";
+    }
+    
+  }
+
   return (
     <>
       {console.log("cart")}
@@ -80,6 +91,7 @@ function ProductDetail() {
               <div className="card mb-3">
                 <div className="row g-0">
                   <div className="col-md-4 border-end">
+                    {LoadingSpin(item.data?.image)}
                     <img
                       src={item.data?.image}
                       className="img-fluid rounded-start"

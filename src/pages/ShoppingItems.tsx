@@ -2,25 +2,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store/store";
 import Product from "../models/Product";
 import { NavLink } from "react-router-dom";
-import { remove_Item } from "../redux/slices/CartDatacopy";
+import { remove_Item, empty_Item } from "../redux/slices/CartDatacopy";
 import { useState } from "react";
 import CheckoutModal from "./CheckoutModal";
-import ReactDOM from "react-dom";
+import { showModal } from "./CheckoutModal";
 
 function ShoppingItems() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useSelector((state: RootState) => state.shopItems.testItem);
-  let [total, setatotal] = useState(0);
   let totalprice = 0;
   function generateRows() {
+    let i = 0;
     return list.map((data) => {
-      let i = 0;
       totalprice += data.price;
-      totalprice=Number.parseFloat(totalprice.toFixed(2));
+      totalprice = Number.parseFloat(totalprice.toFixed(2));
       i++;
 
       return (
-        <tr key={data.id}>
+        <tr key={i}>
           <th scope="row">{i}</th>
           <td>
             <img width={90} height={90} src={data.image} alt="item" />
@@ -47,9 +46,12 @@ function ShoppingItems() {
     dispatch(remove_Item(item));
   }
 
+  function emptyCart() {
+    dispatch(empty_Item());
+  }
+
   return (
     <>
-      <CheckoutModal />
       <p className="fs-1 text-center">Shopping list</p>
 
       <div
@@ -65,11 +67,22 @@ function ShoppingItems() {
           <i className="bi bi-arrow-90deg-left"></i>
           <span className="fs-4 ms-2">Products</span>
         </NavLink>
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={() => {
+            emptyCart();
+          }}
+        >
+          <i className="bi bi-cart-x"></i>
+          <span className="fs-4 ms-2">Empty</span>
+        </button>
 
         <button
           type="button"
           className="btn btn-success"
           onClick={() => {
+            showModal();
           }}
         >
           <i className="bi bi-credit-card-fill"></i>
@@ -98,6 +111,8 @@ function ShoppingItems() {
           </td>
         </tr>
       </table>
+      <div>{/* <Loading /> */}</div>
+      <CheckoutModal total={totalprice} />
     </>
   );
 }

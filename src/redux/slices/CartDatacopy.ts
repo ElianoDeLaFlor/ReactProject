@@ -20,11 +20,14 @@ const shoppingSlice = createSlice({
         remove_Item: (state, action: PayloadAction<Product>) => {
             let index = state.testItem.findIndex(p => p.id === action.payload.id);
             state.testItem.splice(index, 1);
+        },
+        empty_Item: (state) => {
+            state.testItem=[];
         }
     }
 });
 
 
-export const { add_Item, remove_Item } = shoppingSlice.actions;
+export const { add_Item, remove_Item, empty_Item } = shoppingSlice.actions;
 
 export default shoppingSlice.reducer;
