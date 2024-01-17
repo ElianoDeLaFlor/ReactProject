@@ -3,18 +3,28 @@ import { AppDispatch, RootState } from "../redux/store/store";
 import Product from "../models/Product";
 import { NavLink } from "react-router-dom";
 import { remove_Item, empty_Item } from "../redux/slices/CartDatacopy";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CheckoutModal from "./CheckoutModal";
 import { showModal } from "./CheckoutModal";
+import cartDataContext from "../components/DataContext";
 
 function ShoppingItems() {
   const dispatch = useDispatch<AppDispatch>();
-  const list = useSelector((state: RootState) => state.shopItems.testItem);
-  let totalprice = 0;
+  const list_ = useSelector((state: RootState) => state.shopItems.testItem);
   
-  function GenerateRows() {
+  let list: Product[];
+  const testData = useContext(cartDataContext);
+  
+  if (testData !== undefined) {
+    list = testData?.data;
+  }
+  
+
+  let totalprice = 0;
+  console.table(testData);
+  function generateRows() {
     let i = 0;
-    return list.map((data) => {
+    return list.map((data:Product) => {
       totalprice += data.price;
       totalprice = Number.parseFloat(totalprice.toFixed(2));
       i++;
@@ -43,6 +53,8 @@ function ShoppingItems() {
         </>
       );
     });
+
+    
   }
 
   function deleteData(item: Product) {
@@ -105,7 +117,7 @@ function ShoppingItems() {
         </thead>
 
         <tbody>
-          <GenerateRows/>
+          {generateRows()}
         </tbody>
         <tr>
           <td

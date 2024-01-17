@@ -4,13 +4,19 @@ import { AppDispatch, RootState } from "../redux/store/store";
 import { getProductListByIdAsync } from "../redux/slices/ProductByIdFetcher";
 import { addItem, removeItem } from "../redux/slices/CartData";
 import { add_Item } from "../redux/slices/CartDatacopy";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
 import Product from "../models/Product";
 import CartItem from "../models/CartItem";
 import Loading from "../components/Loading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import cartDataContext from "../components/DataContext";
+import Cart from "../models/Cart";
+
+interface ProductDetailProps {
+  sendDataToParent: (data: Product[]) => void;
+}
 
 function ProductDetail() {
   const id = useParams();
@@ -22,7 +28,7 @@ function ProductDetail() {
   function productItem() {
     dispatch(getProductListByIdAsync(url));
   }
-
+  let cartState = useContext(cartDataContext);
   useEffect(() => {
     productItem();
   }, []);
@@ -50,7 +56,20 @@ function ProductDetail() {
 
   function add_ToCart(product: Product | null | undefined) {
     if (product) {
+      
       dispatch(add_Item(product));
+      notify();
+    }
+  }
+
+  function addToCart_(product: Product | null | undefined) {
+    if (product) {
+      let products = cartState?.data;
+      let productsCount = cartState?.count;
+      products?.push(product);
+      if(products!==undefined) cartState?.setValue(products);
+      if (productsCount !== undefined) cartState?.setCountValue(productsCount+1);
+      console.log("cartState", cartState);
       notify();
     }
   }
@@ -67,9 +86,8 @@ function ProductDetail() {
   //   return list;
   // }
 
-  function LoadingSpin({data}:{data: string | undefined}) {
-    if (!data) 
-      return <Loading />;
+  function LoadingSpin({ data }: { data: string | undefined }) {
+    if (!data) return <Loading />;
     return <></>;
   }
 
@@ -128,7 +146,7 @@ function ProductDetail() {
                       <button
                         title="add to cart"
                         onClick={() => {
-                          add_ToCart(item.data);
+                          addToCart_(item.data);
                         }}
                         className="btn btn-success"
                       >

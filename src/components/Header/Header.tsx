@@ -1,16 +1,26 @@
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import cartDataContext from "../DataContext";
+import Product from "../../models/Product";
 
 interface HeaderPropos {
-  sendSearchData: (data: string) => void;
+  list:  Array<Product>;
+
 }
 
 function Header() {
   const shoppingCart = useSelector(
     (state: RootState) => state.shopItems.testItem
   );
+
+  const testData = useContext(cartDataContext);
+  useEffect(() => {
+    console.log("use effect",testData);
+  }, [testData]);
+
+  console.log("testData", testData);
 
   let [data, setData] = useState<string>("");
   const navigate = useNavigate();
@@ -35,10 +45,7 @@ function Header() {
   return (
     <>
       {}
-      <nav
-        className="navbar mb-5 navbar-expand-lg sticky-top shadow headerbackground fs-4"
-        
-      >
+      <nav className="navbar mb-5 navbar-expand-lg sticky-top shadow headerbackground fs-4">
         <div className="container-fluid">
           <NavLink to="/" className="navbar-brand">
             Navbar
@@ -89,7 +96,7 @@ function Header() {
             >
               <i className="bi bi-bag-fill fs-5"></i>
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {shoppingCart.length}
+                {testData?.count}
                 <span className="visually-hidden">cart item</span>
               </span>
             </NavLink>

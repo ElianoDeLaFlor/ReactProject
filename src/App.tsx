@@ -12,24 +12,38 @@ import ErrorPage from "./pages/ErrorPage";
 import ProductComp from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import ShoppingItems from "./pages/ShoppingItems";
-import { useState } from "react";
+import { createContext, useState } from "react";
+import Cart from "./models/Cart";
+import cartDataContext from "./components/DataContext";
+import Product from "./models/Product";
 
 function App() {
+  const [cartData, setCartData] = useState(new Array<Product>());
+  const [cartCount, setCartCount] = useState(0);
 
   return (
     <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/products" element={<ProductComp />} />
-        <Route path="/products/search/:search" element={<ProductComp />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<ShoppingItems />} />
+      <cartDataContext.Provider
+        value={{
+          data: cartData,
+          count: cartCount,
+          setValue: setCartData,
+          setCountValue: setCartCount,
+        }}
+      >
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/products" element={<ProductComp />} />
+          <Route path="/products/search/:search" element={<ProductComp />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<ShoppingItems />} />
 
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </cartDataContext.Provider>
     </>
   );
 }
