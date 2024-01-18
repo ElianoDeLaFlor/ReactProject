@@ -16,9 +16,6 @@ function Header() {
   );
 
   const testData = useContext(cartDataContext);
-  useEffect(() => {
-    console.log("use effect",testData);
-  }, [testData]);
 
   console.log("testData", testData);
 

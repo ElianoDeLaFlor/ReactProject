@@ -56,7 +56,6 @@ function ProductDetail() {
 
   function add_ToCart(product: Product | null | undefined) {
     if (product) {
-      
       dispatch(add_Item(product));
       notify();
     }
@@ -64,13 +63,70 @@ function ProductDetail() {
 
   function addToCart_(product: Product | null | undefined) {
     if (product) {
-      let products = cartState?.data;
+      let cart = cartState?.data;
       let productsCount = cartState?.count;
-      products?.push(product);
-      if(products!==undefined) cartState?.setValue(products);
-      if (productsCount !== undefined) cartState?.setCountValue(productsCount+1);
-      console.log("cartState", cartState);
-      notify();
+
+      /////////////////////
+      if (product) {
+        let item = new CartItem();
+        item.itemCount = 1;
+        item.product = product;
+
+        if (cart?.Items.length === 0) {
+          //Is the first item to the cart
+          item.price = item.itemCount * item.product.price;
+          cart.Items.push(item);
+          cart.itemCount = item.itemCount;
+          productsCount = item.itemCount;
+          cart.price = item.product.price;
+
+          cartState?.setValue(cart);
+          cartState?.setCountValue(productsCount);
+
+          console.log("state", cart.Items);
+        } else {
+          //get product
+          let prod = cart?.Items.find((i) => i.product.id === item.product.id);
+          if (prod !== undefined) {
+            prod.itemCount += 1;
+            prod.price = prod.product.price * prod.itemCount;
+            //get product index
+            let index = cart?.Items.findIndex(
+              (i) => i.product.id === item.product.id
+            );
+            if (cart !== undefined) {
+              if (index !== undefined) cart.Items[index] = prod;
+              //update item count in the cart
+              cart.itemCount += 1;
+              productsCount = cart.itemCount;
+              //update the total price in the cart
+              cart.price += prod.product.price;
+
+              cartState?.setValue(cart);
+              cartState?.setCountValue(productsCount);
+            }
+            
+            console.log("state", cart?.Items);
+            
+          } else {
+            //the product is not yet added to the cart
+            item.price =
+              item.itemCount * item.product.price;
+            cart?.Items.push(item);
+            if (cart !== undefined) {
+              //update item count in the cart
+              cart.itemCount += 1;
+              productsCount = cart.itemCount;
+              //update the total price in the cart
+              cart.price += item.product.price;
+
+              cartState?.setValue(cart);
+              cartState?.setCountValue(productsCount);
+            }
+            console.log("state 2", cart?.Items);
+          }
+        }
+      }
     }
   }
 

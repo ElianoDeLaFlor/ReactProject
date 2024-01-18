@@ -18,7 +18,7 @@ import cartDataContext from "./components/DataContext";
 import Product from "./models/Product";
 
 function App() {
-  const [cartData, setCartData] = useState(new Array<Product>());
+  const [cartData, setCartData] = useState(new Cart());
   const [cartCount, setCartCount] = useState(0);
 
   return (

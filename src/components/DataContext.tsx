@@ -3,12 +3,12 @@ import Cart from "../models/Cart";
 import Product from "../models/Product";
 
 
-type ContextType={
-    data: Product[];
-    count: number;
-    setValue: Dispatch<SetStateAction<Product[]>>;
-    setCountValue: Dispatch<SetStateAction<number>>;
-}
+type ContextType = {
+  data: Cart;
+  count: number;
+  setValue: Dispatch<SetStateAction<Cart>>;
+  setCountValue: Dispatch<SetStateAction<number>>;
+};
 const cartDataContext = createContext<ContextType | undefined>(undefined);
 
 export default cartDataContext;
